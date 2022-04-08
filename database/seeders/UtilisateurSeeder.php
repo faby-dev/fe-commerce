@@ -21,7 +21,16 @@ class UtilisateurSeeder extends Seeder
             'adresse' => 'admin',
             'email' => 'admin@admin.net',
             'password' => Hash::make("admin"),
-            "is_admin" => true
+            "role" => "admin"
+        ]);
+
+        User::create([
+            'name' => 'test',
+            'firstname' => 'test',
+            'adresse' => 'test',
+            'email' => 'test@test.mg',
+            'password' => Hash::make("test"),
+            "role" => "users"
         ]);
     }
 }

@@ -19,4 +19,10 @@ Route::get("/produits/{id}", [ProduitsController::class, "show"])->where("id", "
 
 Auth::routes();
 
+Route::middleware(["auth", "role:admin"])->group(function (){
+    Route::get("/test",function (){
+        return "Bonjour, Admin";
+    });
+});
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
