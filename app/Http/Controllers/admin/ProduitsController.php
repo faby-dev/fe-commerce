@@ -5,18 +5,9 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Produits;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ProduitsController extends Controller
 {
-    /**
-     * ProduitsController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +15,9 @@ class ProduitsController extends Controller
      */
     public function index()
     {
-        $produits = DB::table('produits')->paginate(6);
-        return view("admin/produits/index", compact("produits"));
+        $produits = Produits::latest()->paginate(5);
+        return view('admin.produits.index',compact('produits'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -35,7 +27,7 @@ class ProduitsController extends Controller
      */
     public function create()
     {
-        return view("admin/produits/create");
+        return view('admin.produits.create');
     }
 
     /**
@@ -46,63 +38,78 @@ class ProduitsController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        Produits::create([
-            "titre" => $data["titre"],
-            "prix" => $data["prix"],
-            "quantite" => $data["quantite"],
-            "extrait" =>$data["extrait"],
-            "description" => $data["description"],
-            "images" => $data["image"],
-            "ispublished" => ($data["publish"] == "on") ? true : false
+        $request->validate([
+            'titre' => 'required|string',
+            'prix' => 'required|integer',
+            'extrait' => 'required|string',
+            'quantite' => 'required|integer',
+            'description' => 'required',
+            'images' => 'required|string',
+            'ispublished' => 'required',
         ]);
-        return redirect("admin.produits.index");
+        Produits::create($request->all());
+
+        return redirect()->route('admin.produits.index')
+            ->with('success','Product created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Produits  $produits
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $produit = Produits::find($id);
-        return view("admin/produits/show", compact("produits"));
+        $produit  = Produits::find($id);
+        return view('admin.produits.show',compact('produit'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Produits  $produits
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Produits $produits)
     {
-        $produits = Produits::find($id);
-        return view("admin/produits/edit", compact("produits"));
+        return view('admin.produits.edit',compact('produits'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Produits  $produits
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Produits $produits)
     {
-        //
+        $request->validate([
+            'titre' => 'required|string',
+            'prix' => 'required|integer',
+            'extrait' => 'required|string',
+            'quantite' => 'required|integer',
+            'description' => 'required',
+            'images' => 'required|string',
+            'ispublished' => 'required',
+        ]);
+        $produits->update($request->all());
+
+        return redirect()->route('admin.produits.index')
+            ->with('success','Product updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Produits  $produits
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Produits $produits)
     {
-        //
+        $produits->delete();
+        return redirect()->route('admin.produits.index')
+            ->with('success','Product deleted successfully');
     }
 }

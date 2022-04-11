@@ -1,7 +1,9 @@
 @extends("layouts/app")
 @section("content")
     <div class="container">
-
+        <pre>
+            {{ dump($produit) }}
+        </pre>
         <div class="row">
             <div class="col-12 my-3">
                 <img src="{{ $produit->images }}" alt="sary" class="img-fluid w-100">

@@ -4,6 +4,15 @@
         <h1 class="text-center">Cree un Produits</h1>
         <form action="{{ route('admin.produits.store') }}" method="POST">
             @csrf
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div><br />
+            @endif
             <!--titre-->
             <div class="form-group">
                 <label for="exampleInputEmail1">Titre</label>
