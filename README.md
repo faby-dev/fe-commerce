@@ -27,7 +27,7 @@
     npm install ou yarn install
     ```
     
-5.Configure la base de donnée  copiez la fiche env.exemple et renome en .env la copie modifier cette:
+5. Configure la base de donnée  copiez la fiche env.exemple et renome en .env la copie modifier cette:
     ```bash
       .env DB_CONNECTION
     ```

@@ -21,7 +21,8 @@ class ProduitsSeeder extends Seeder
                 "titre" => $faker->sentence(4),
                 "prix" => $faker->numberBetween(15,300) *100,
                 "quantite" => $faker->numberBetween(0,1000),
-                "description" => $faker->text,
+                "extrait" =>$faker->sentence(10),
+                "description" => $faker->text(2000),
                 "images" => "https://via.placeholder.com/200x200",
                 "ispublished" => true
             ]);

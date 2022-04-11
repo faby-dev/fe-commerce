@@ -9,8 +9,8 @@
                         <img class="img-fluid card-img-top" src="{{ $produit->images }}" alt="Generic placeholder image"/>
                         <div class="card-body">
                             <h5 class="card-title">{{ $produit->titre }}</h5>
-                            <p class="card-text">{{ $produit->description }}</p>
-                            <a href="{{ route("Affiche_Produits", $produit->id) }}" class="btn btn-primary">Affiche</a>
+                            <p class="card-text">{{ $produit->extrait }}</p>
+                            <a href="{{ route("Affiche_Produits", $produit->id) }}" class="btn btn-dark">Affiche Détail</a>
                         </div>
                     </div>
                 </div>
